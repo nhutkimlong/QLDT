@@ -1,0 +1,100 @@
+import React from 'react';
+import { Document, DocumentStatus, Priority } from '../../types';
+import { EditIcon, TrashIcon, EyeIcon, PaperClipIcon } from '../../constants';
+import { Button } from '../shared/Button';
+
+interface DocumentItemProps {
+  document: Document;
+  onView: (document: Document) => void;
+  onEdit: (document: Document) => void;
+  onDelete: (documentId: string) => void;
+}
+
+const getStatusColor = (status: DocumentStatus): string => {
+  switch (status) {
+    case DocumentStatus.Moi: return 'bg-blue-100 text-blue-800';
+    case DocumentStatus.DangXuLy: return 'bg-yellow-100 text-yellow-800';
+    case DocumentStatus.ChoPhanHoi: return 'bg-orange-100 text-orange-800';
+    case DocumentStatus.DaHoanThanh: return 'bg-green-100 text-green-800';
+    case DocumentStatus.LuuTru: return 'bg-gray-100 text-gray-800';
+    case DocumentStatus.Huy: return 'bg-red-100 text-red-800';
+    default: return 'bg-gray-200 text-gray-800';
+  }
+};
+
+const getPriorityColor = (priority: Priority): string => {
+  switch (priority) {
+    case Priority.Cao: return 'text-red-600 font-semibold';
+    case Priority.TrungBinh: return 'text-yellow-600';
+    case Priority.Thap: return 'text-green-600';
+    default: return 'text-gray-600';
+  }
+};
+
+export const DocumentItem: React.FC<DocumentItemProps> = ({ document, onView, onEdit, onDelete }) => {
+  return (
+    <div className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 flex flex-col justify-between">
+      <div>
+        <div className="flex justify-between items-start mb-2">
+          <h3 
+            className="text-lg font-semibold text-blue-700 hover:underline cursor-pointer truncate" 
+            onClick={() => onView(document)}
+            title={document.title}
+          >
+            {document.title}
+          </h3>
+          <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(document.status)}`}>
+            {document.status}
+          </span>
+        </div>
+        <p className="text-sm text-gray-600 mb-1">
+          <span className="font-medium">Số hiệu:</span> {document.document_number}
+        </p>
+        <p className="text-sm text-gray-600 mb-1">
+          <span className="font-medium">Loại:</span> {document.document_type}
+        </p>
+        <p className="text-sm text-gray-600 mb-1">
+          <span className="font-medium">Ngày BH:</span> {new Date(document.issued_date).toLocaleDateString('vi-VN')}
+          {document.due_date && <span className="ml-2"><span className="font-medium">Hạn XL:</span> {new Date(document.due_date).toLocaleDateString('vi-VN')}</span>}
+        </p>
+        <p className="text-sm text-gray-600 mb-1 truncate" title={document.issuing_organization}>
+          <span className="font-medium">Nơi BH:</span> {document.issuing_organization}
+        </p>
+        <p className={`text-sm mb-2 ${getPriorityColor(document.priority)}`}>
+            <span className="font-medium text-gray-600">Ưu tiên:</span> {document.priority}
+        </p>
+        {document.file_attachments && document.file_attachments.length > 0 && (
+          <div className="text-sm text-gray-500 flex items-center">
+            <PaperClipIcon /> <span className="ml-1">{document.file_attachments.length} tệp đính kèm</span>
+          </div>
+        )}
+        {document.tags && document.tags.length > 0 && (
+          <div className="mt-2">
+            {document.tags.map(tag => (
+              <span key={tag} className="inline-block bg-purple-100 text-purple-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="mt-4 pt-3 border-t border-gray-200 flex items-center justify-end space-x-2">
+        <Button variant="ghost" size="sm" onClick={() => onView(document)} title="Xem chi tiết"><EyeIcon /></Button>
+        <Button variant="ghost" size="sm" onClick={() => onEdit(document)} title="Chỉnh sửa văn bản"><EditIcon /></Button>
+        <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => {
+              if (window.confirm('Bạn có chắc chắn muốn xóa văn bản này?')) {
+                onDelete(document.id);
+              }
+            }}
+            className="text-red-500 hover:text-red-700 hover:bg-red-100"
+            title="Xóa văn bản"
+        >
+            <TrashIcon />
+        </Button>
+      </div>
+    </div>
+  );
+};

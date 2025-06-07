@@ -1,0 +1,43 @@
+{
+  "name": "myworkpal-bqlnbđ",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "postinstall": "node scripts/download-tessdata.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.4.0",
+    "@heroicons/react": "^2.2.0",
+    "@supabase/supabase-js": "^2.49.10",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "googleapis": "^150.0.1",
+    "iconv-lite": "^0.x.x",
+    "mammoth": "^1.9.1",
+    "multer": "^2.0.1",
+    "path": "^0.12.7",
+    "pdf-lib": "^1.17.1",
+    "pdf-parse": "^1.1.1",
+    "pdf-poppler": "^0.2.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.6.2",
+    "sharp": "^0.33.5",
+    "stream": "^0.0.3",
+    "tesseract.js": "^5.1.1",
+    "url": "^0.11.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.6",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0"
+  }
+}

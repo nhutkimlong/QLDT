@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyWorkPal-BQLNBĐ</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <style>
+    /* Additional global styles if needed */
+    body {
+      font-family: 'Inter', sans-serif; /* Example: Using Inter font */
+    }
+    /* Fix for an issue where sticky header might be overlapped by fixed modal */
+    .sticky {
+        z-index: 30 !important; /* Ensure header is above sidebar overlay but below modal */
+    }
+    .fixed.inset-0.z-50 { /* Modal */
+        z-index: 50 !important;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.4.0",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.6.2",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.49.10",
+    "cors": "https://esm.sh/cors@^2.8.5",
+    "fs": "https://esm.sh/fs@^0.0.1-security",
+    "url": "https://esm.sh/url@^0.11.4",
+    "multer": "https://esm.sh/multer@^2.0.1",
+    "stream": "https://esm.sh/stream@^0.0.3",
+    "googleapis": "https://esm.sh/googleapis@^150.0.1",
+    "path": "https://esm.sh/path@^0.12.7",
+    "express": "https://esm.sh/express@^5.1.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

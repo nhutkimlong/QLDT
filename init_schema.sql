@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS public.users CASCADE;
 -- XÓA TOÀN BỘ ENUM (nếu có)
 DROP TYPE IF EXISTS public.document_status CASCADE;
 DROP TYPE IF EXISTS public.document_type CASCADE;
-DROP TYPE IF EXISTS public.priority CASCADE;
 DROP TYPE IF EXISTS public.task_priority CASCADE;
 DROP TYPE IF EXISTS public.task_status CASCADE;
 DROP TYPE IF EXISTS public.task_category CASCADE;
@@ -51,7 +50,6 @@ CREATE TYPE public.document_type AS ENUM (
   'Báo cáo Giám sát Hoạt động Du lịch',
   'Khác'
 );
-CREATE TYPE public.priority AS ENUM ('Cao', 'Trung bình', 'Thấp');
 CREATE TYPE public.task_priority AS ENUM ('Khẩn cấp', 'Cao', 'Trung bình', 'Thấp');
 CREATE TYPE public.task_status AS ENUM ('Mới tạo', 'Đang thực hiện', 'Tạm dừng', 'Hoàn thành', 'Hủy bỏ');
 CREATE TYPE public.task_category AS ENUM (
@@ -116,7 +114,6 @@ CREATE TABLE public.documents (
   document_number text,
   document_type public.document_type,
   status public.document_status,
-  priority public.priority,
   due_date date,
   issued_date date,
   received_date date,
@@ -125,7 +122,6 @@ CREATE TABLE public.documents (
   summary text,
   tags text[],
   user_id uuid,
-  handler_user_id uuid,
   created_at timestamp with time zone default timezone('utc'::text, now()),
   updated_at timestamp with time zone default timezone('utc'::text, now())
 );

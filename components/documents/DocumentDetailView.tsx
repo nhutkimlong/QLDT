@@ -129,11 +129,7 @@ export const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ document
     setError(null);
     try {
         // 1. Delete from Google Drive
-        const deleteDriveResponse = await fetch('http://localhost:3001/delete-drive-file', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fileId: attachmentToDelete.google_drive_file_id })
-        });
+        const deleteDriveResponse = await googleDriveService.deleteFile(attachmentToDelete.google_drive_file_id);
 
         if (!deleteDriveResponse.ok) {
             const errorBody = await deleteDriveResponse.text();

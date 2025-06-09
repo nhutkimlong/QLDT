@@ -348,23 +348,13 @@ export const TourismDocumentFormModal: React.FC<TourismDocumentFormModalProps> =
 
         {!documentToEdit && (
           <div className="mt-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-              <Select
-                label="Văn bản liên quan (nếu có)"
-                name="related_document_id"
-                value={relatedDocumentId}
-                onChange={e => setRelatedDocumentId(e.target.value)}
-                options={[{ value: '', label: '-- Không chọn --' }, ...allDocuments.map(d => ({ value: d.id, label: `${d.document_number || 'N/A'} - ${d.title}` }))]}
-              />
-              <Select
-                label="Loại liên kết"
-                name="relation_type"
-                value={relationType}
-                onChange={e => setRelationType(e.target.value as TourismDocumentRelationType)}
-                options={Object.values(TourismDocumentRelationType).map(t => ({value: t, label: t}))}
-                disabled={!relatedDocumentId}
-              />
-            </div>
+            <Select
+              label="Văn bản liên quan (nếu có)"
+              name="related_document_id"
+              value={relatedDocumentId}
+              onChange={e => setRelatedDocumentId(e.target.value)}
+              options={[{ value: '', label: '-- Không chọn --' }, ...allDocuments.map(d => ({ value: d.id, label: `${d.document_number || 'N/A'} - ${d.title}` }))]}
+            />
             <p className="text-xs text-gray-500 mt-1">Nếu chọn, văn bản này sẽ được liên kết với văn bản đã chọn.</p>
           </div>
         )}

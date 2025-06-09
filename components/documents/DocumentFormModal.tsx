@@ -28,7 +28,6 @@ const initialFormData: DocumentFormData = {
   document_type: DocumentType.CongVanDen,
   issued_date: new Date().toISOString().substring(0,10),
   issuing_organization: '',
-  priority: Priority.TrungBinh,
   status: DocumentStatus.Moi,
   tagsString: '',
   received_date: null,
@@ -62,7 +61,6 @@ export const DocumentFormModal: React.FC<DocumentFormModalProps> = ({ isOpen, on
             received_date: documentToEdit.received_date?.substring(0,10) || null,
             issuing_organization: documentToEdit.issuing_organization,
             recipient_organization: documentToEdit.recipient_organization || null,
-            priority: documentToEdit.priority,
             status: documentToEdit.status,
             due_date: documentToEdit.due_date?.substring(0,10) || null,
             summary: documentToEdit.summary || null,
@@ -170,7 +168,7 @@ export const DocumentFormModal: React.FC<DocumentFormModalProps> = ({ isOpen, on
         savedDocument = await documentApi.update(documentToEdit.id, dataForSupabase);
       } else {
         const createData = dataForSupabase as DocumentFormData;
-        if (!createData.title || !createData.document_number || !createData.document_type || !createData.issued_date || !createData.issuing_organization || !createData.priority || !createData.status) {
+        if (!createData.title || !createData.document_number || !createData.document_type || !createData.issued_date || !createData.issuing_organization || !createData.status) {
             throw new Error("Thiếu thông tin bắt buộc để tạo văn bản.");
         }
         savedDocument = await documentApi.create(createData);
@@ -268,7 +266,6 @@ export const DocumentFormModal: React.FC<DocumentFormModalProps> = ({ isOpen, on
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
             <Select label="Loại văn bản" name="document_type" value={formData.document_type} onChange={handleChange} options={Object.values(DocumentType).map(t => ({value: t, label: t}))} required />
-            <Select label="Độ ưu tiên" name="priority" value={formData.priority} onChange={handleChange} options={Object.values(Priority).map(p => ({value: p, label: p}))} required />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
             <DateTimePicker label="Ngày ban hành" name="issued_date" value={formData.issued_date} onChange={handleChange} required />
@@ -276,18 +273,12 @@ export const DocumentFormModal: React.FC<DocumentFormModalProps> = ({ isOpen, on
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
             <Input label="Nơi ban hành/Cơ quan gửi" name="issuing_organization" value={formData.issuing_organization} onChange={handleChange} required />
-            <Input label="Nơi nhận (nếu CV đi)" name="recipient_organization" value={formData.recipient_organization || ''} onChange={handleChange} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
             <Select label="Trạng thái" name="status" value={formData.status} onChange={handleChange} options={Object.values(DocumentStatus).map(s => ({value: s, label: s}))} required />
             <DateTimePicker label="Hạn xử lý" name="due_date" value={formData.due_date || ''} onChange={handleChange} />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-          <Input label="Người xử lý chính (ID User - Tùy chọn)" name="handler_user_id" value={formData.handler_user_id || ''} onChange={handleChange} placeholder="UUID người dùng" />
-           {/* <Input label="Nơi lưu trữ bản gốc" name="physical_storage_location" value={formData.physical_storage_location || ''} onChange={handleChange} /> Removed */}
-        </div>
        
-        {/* <Input label="Mã dự án (nếu có)" name="project_code" value={formData.project_code || ''} onChange={handleChange} /> Removed */}
         <Input label="Thẻ (phân cách bằng dấu phẩy)" name="tagsString" value={formData.tagsString || ''} onChange={handleChange} placeholder="VD: báo cáo, năm 2024, khẩn" />
         <Textarea label="Tóm tắt nội dung" name="summary" value={formData.summary || ''} onChange={handleChange} rows={4}/>
         
@@ -331,12 +322,8 @@ export const DocumentFormModal: React.FC<DocumentFormModalProps> = ({ isOpen, on
                                     const attachment = currentAttachments.find(a => a.id === attId);
                                     if (!attachment) return;
                                     try {
-                                        // Gọi API backend xóa file Google Drive
-                                        await fetch('http://localhost:3001/delete-drive-file', {
-                                            method: 'POST',
-                                            headers: { 'Content-Type': 'application/json' },
-                                            body: JSON.stringify({ fileId: attachment.google_drive_file_id })
-                                        });
+                                        // Thay thế đoạn code gọi API local
+                                        const deleteDriveResponse = await googleDriveService.deleteFile(attachment.google_drive_file_id);
                                         // Xóa trong database
                                         await documentApi.deleteFileAttachment(attId);
                                         setCurrentAttachments(prev => prev.filter(a => a.id !== attId));

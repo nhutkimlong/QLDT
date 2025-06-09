@@ -92,8 +92,6 @@ export interface Document {
   issued_date: string; 
   received_date?: string | null; 
   issuing_organization: string;
-  recipient_organization?: string | null;
-  priority: Priority;
   status: DocumentStatus;
   due_date?: string | null; 
   summary?: string | null;
@@ -104,7 +102,6 @@ export interface Document {
   file_attachments?: FileAttachment[];
   related_documents?: DocumentRelationInfo[];
   
-  handler_user_id?: UUID | null; 
   physical_storage_location?: string | null;
   project_code?: string | null; 
   creator_user_email?: string | null; 
@@ -117,18 +114,12 @@ export interface DocumentFormData {
   document_type: DocumentType;
   issued_date: string;
   issuing_organization: string;
-  priority: Priority;
   status: DocumentStatus;
   received_date?: string | null;
-  recipient_organization?: string | null;
   due_date?: string | null;
   summary?: string | null;
   tags?: string[] | null; 
   tagsString?: string; 
-
-  handler_user_id?: UUID | null;
-  // physical_storage_location?: string | null; // Removed from form
-  // project_code?: string | null; // Removed from form
 }
 
 
@@ -582,15 +573,10 @@ export type Database = {
           document_number: string
           document_type: Database["public"]["Enums"]["document_type"]
           due_date: string | null
-          handler_user_id: string | null
           id: string
           issued_date: string
           issuing_organization: string
           physical_storage_location: string | null
-          priority: Database["public"]["Enums"]["priority"]
-          project_code: string | null 
-          received_date: string | null
-          recipient_organization: string | null
           status: Database["public"]["Enums"]["document_status"]
           summary: string | null
           tags: string[] | null
@@ -603,15 +589,10 @@ export type Database = {
           document_number: string
           document_type: Database["public"]["Enums"]["document_type"]
           due_date?: string | null
-          handler_user_id?: string | null
           id?: string
           issued_date: string
           issuing_organization: string
           physical_storage_location?: string | null
-          priority: Database["public"]["Enums"]["priority"]
-          project_code?: string | null
-          received_date?: string | null
-          recipient_organization?: string | null
           status: Database["public"]["Enums"]["document_status"]
           summary?: string | null
           tags?: string[] | null
@@ -624,15 +605,10 @@ export type Database = {
           document_number?: string
           document_type?: Database["public"]["Enums"]["document_type"]
           due_date?: string | null
-          handler_user_id?: string | null
           id?: string
           issued_date?: string
           issuing_organization?: string
           physical_storage_location?: string | null
-          priority?: Database["public"]["Enums"]["priority"]
-          project_code?: string | null
-          received_date?: string | null
-          recipient_organization?: string | null
           status?: Database["public"]["Enums"]["document_status"]
           summary?: string | null
           tags?: string[] | null
@@ -641,13 +617,6 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "documents_handler_user_id_fkey"
-            columns: ["handler_user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "documents_user_id_fkey"
             columns: ["user_id"]

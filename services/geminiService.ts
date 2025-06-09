@@ -1,5 +1,6 @@
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { TaskPriority, AISuggestedTask, Document, Task, Event, TaskStatus, FileAttachment } from '../types';
+import { googleDriveService } from './googleDriveService';
 
 // Get API key from window.env or fallback to empty string
 const apiKey = (window as any).env?.API_KEY || '';
@@ -28,18 +29,8 @@ const TEXT_MODEL = 'gemini-2.0-flash';
 // Hàm đọc nội dung file từ Google Drive
 const readFileFromDrive = async (fileId: string): Promise<string> => {
   try {
-    const response = await fetch(`http://localhost:3001/read-drive-file`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileId })
-    });
-
-    if (!response.ok) {
-      throw new Error(`Lỗi đọc file từ Drive: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data.content || '';
+    const { content } = await googleDriveService.readFile(fileId);
+    return content || '';
   } catch (error) {
     console.error("Error reading file from Drive:", error);
     throw error;

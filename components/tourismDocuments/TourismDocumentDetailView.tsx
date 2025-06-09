@@ -113,11 +113,7 @@ export const TourismDocumentDetailView: React.FC<TourismDocumentDetailViewProps>
     setError(null);
     try {
       // 1. Delete from Google Drive
-      const deleteDriveResponse = await fetch('http://localhost:3001/delete-drive-file', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileId: attachmentToDelete.google_drive_file_id })
-      });
+      const deleteDriveResponse = await googleDriveService.deleteFile(attachmentToDelete.google_drive_file_id);
 
       if (!deleteDriveResponse.ok) {
         const errorBody = await deleteDriveResponse.text();
@@ -332,8 +328,7 @@ export const TourismDocumentDetailView: React.FC<TourismDocumentDetailViewProps>
                     onPreview={() => onPreviewFile(attachment.google_drive_webview_link, attachment.file_name)}
                     onDelete={async () => {
                       try {
-                        await tourismDocumentApi.deleteFileAttachment(attachment.id);
-                        fetchDocumentDetails();
+                        await handleDeleteAttachment(attachment.id);
                       } catch (err: any) {
                         alert(`Lỗi xóa tệp đính kèm: ${err.message}`);
                       }

@@ -1,160 +1,110 @@
-# Hướng dẫn sử dụng (Tiếng Việt)
+# QLDT - Hệ thống Quản lý Tài liệu Thông minh
 
 ## Giới thiệu
-Đây là ứng dụng AI hiện đại sử dụng React, TypeScript và Google Gemini AI.
+QLDT là một ứng dụng web hiện đại được xây dựng để quản lý và xử lý tài liệu thông minh, tích hợp các công nghệ AI tiên tiến. Ứng dụng sử dụng React, TypeScript và Google Gemini AI để cung cấp trải nghiệm người dùng tốt nhất.
 
-## Tính năng
-- Tương tác AI với Google Gemini
-- Quản lý và upload file
-- Tích hợp Google API
-- Kết nối cơ sở dữ liệu với Supabase
+## Tính năng chính
+- 🤖 Tương tác AI với Google Gemini để phân tích và xử lý tài liệu
+- 📁 Quản lý tài liệu thông minh với khả năng upload và xử lý nhiều định dạng
+- 🔍 OCR (Optical Character Recognition) với Tesseract.js
+- 📊 Tích hợp với Google Drive API để lưu trữ và quản lý file
+- 💾 Cơ sở dữ liệu Supabase cho việc lưu trữ thông tin
+- 📝 Hỗ trợ nhiều định dạng tài liệu (PDF, DOCX, etc.)
+- 🔐 Xác thực và phân quyền người dùng
 
-## Yêu cầu
-- Node.js (nên dùng bản LTS mới nhất)
-- Tài khoản Google Cloud có quyền truy cập Gemini API
-- Tài khoản Supabase (nếu dùng database)
+## Yêu cầu hệ thống
+- Node.js (phiên bản LTS mới nhất)
+- Tài khoản Google Cloud với quyền truy cập:
+  - Gemini API
+  - Google Drive API
+- Tài khoản Supabase
+- Tesseract.js data files (được tải tự động qua script)
 
-## Cài đặt và chạy dự án
+## Cài đặt
 
 1. **Clone repository:**
    ```bash
-   git clone [repository-url]
-   cd myworkpal-bqlnbđ
+   git clone https://github.com/nhutkimlong/QLDT.git
+   cd QLDT
    ```
 
-2. **Cài đặt thư viện:**
+2. **Cài đặt dependencies:**
    ```bash
    npm install
-   # Nếu cần, cài lại iconv-lite thủ công
-   npm install iconv-lite
    ```
 
-3. **Cấu hình biến môi trường:**
-   - Tạo file `.env.local` ở thư mục gốc (hoặc copy từ `.env.example` nếu có)
-   - Thêm các biến môi trường như sau:
-     ```env
-     VITE_GEMINI_API_KEY=your_gemini_api_key_here
-     VITE_SUPABASE_URL=your_supabase_url_here
-     VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
-     VITE_GOOGLE_CLIENT_ID=your_google_client_id_here
-     VITE_GOOGLE_API_KEY=your_google_api_key_here
-     # Thêm các biến khác nếu cần
-     ```
-   - Nếu chỉ dùng cá nhân, bạn có thể để trực tiếp key vào file này như ví dụ bên dưới.
+3. **Cấu hình môi trường:**
+   Tạo file `.env.local` với các biến môi trường sau:
+   ```env
+   VITE_GEMINI_API_KEY=your_gemini_api_key
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   VITE_GOOGLE_CLIENT_ID=your_google_client_id
+   VITE_GOOGLE_API_KEY=your_google_api_key
+   ```
 
-4. **Chạy server backend Google Drive:**
-   - Mở terminal mới tại thư mục dự án
-   - Chạy lệnh:
-     ```bash
-     node localDriveUploader.js
-     ```
-   - Server này phải luôn chạy để sử dụng tính năng AI tóm tắt tài liệu và thao tác file.
+4. **Khởi động server backend:**
+   ```bash
+   node localDriveUploader.js
+   ```
 
-5. **Chạy server phát triển:**
+5. **Chạy ứng dụng:**
    ```bash
    npm run dev
    ```
 
-6. **Build bản production:**
-   ```bash
-   npm run build
-   ```
+## Cấu trúc dự án
+```
+QLDT/
+├── components/          # React components
+├── hooks/              # Custom React hooks
+├── services/           # API services và integrations
+├── scripts/            # Utility scripts
+├── test/              # Test files
+├── tessdata/          # Tesseract OCR data
+├── App.tsx            # Main application component
+├── types.ts           # TypeScript type definitions
+├── constants.tsx      # Application constants
+├── init_schema.sql    # Database schema
+└── localDriveUploader.js # Google Drive integration server
+```
 
----
+## Công nghệ sử dụng
+- **Frontend:**
+  - React 19
+  - TypeScript
+  - Vite
+  - React Router DOM
+  - Heroicons
 
-# MyWorkPal AI Studio
+- **Backend & Services:**
+  - Express.js
+  - Google Gemini AI
+  - Google Drive API
+  - Supabase
+  - Tesseract.js
+  - PDF.js
+  - Mammoth (DOCX processing)
 
-A modern AI-powered application built with React, TypeScript, and Google's Gemini AI.
+- **Development Tools:**
+  - TypeScript
+  - Vite
+  - Node.js
 
-## Features
+## Scripts
+- `npm run dev` - Khởi động development server
+- `npm run build` - Build cho production
+- `npm run preview` - Xem trước bản build
+- `npm run postinstall` - Tự động tải Tesseract data files
 
-- AI-powered interactions using Google's Gemini AI
-- Modern React application with TypeScript
-- File upload and management capabilities
-- Integration with Google APIs
-- Database integration with Supabase
+## Bảo mật
+- Không lưu trữ API keys trực tiếp trong code
+- Sử dụng biến môi trường cho các thông tin nhạy cảm
+- Xác thực người dùng qua Supabase
+- Mã hóa dữ liệu trong quá trình truyền tải
 
-## Prerequisites
+## Đóng góp
+Mọi đóng góp đều được hoan nghênh! Vui lòng tạo issue hoặc pull request để đóng góp vào dự án.
 
-- Node.js (Latest LTS version recommended)
-- Google Cloud account with Gemini API access
-- Supabase account (for database functionality)
-
-## Setup Instructions
-
-1. Clone the repository:
-   ```bash
-   git clone [repository-url]
-   cd myworkpal-bqlnbđ
-   ```
-
-2. Install dependencies (including iconv-lite for Vietnamese filename support):
-   ```bash
-   npm install
-   # Nếu cần, cài lại iconv-lite thủ công
-   npm install iconv-lite
-   ```
-
-3. Configure environment variables:
-   - Create a `.env.local` file in the root directory (or copy from `.env.example` if có)
-   - Add your environment variables as below:
-     ```env
-     VITE_GEMINI_API_KEY=your_gemini_api_key_here
-     VITE_SUPABASE_URL=your_supabase_url_here
-     VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
-     VITE_GOOGLE_CLIENT_ID=your_google_client_id_here
-     VITE_GOOGLE_API_KEY=your_google_api_key_here
-     # Thêm các biến môi trường khác nếu cần
-     ```
-   - Nếu chỉ dùng cá nhân, bạn có thể để trực tiếp key vào file này như ví dụ bên dưới.
-
-4. **Start the Google Drive backend server:**
-   - Open a new terminal window/tab in the project root
-   - Run the following command to enable file reading/uploading from Google Drive:
-     ```
-     node localDriveUploader.js
-     ```
-   - The server must be running at all times for AI document summarization and file operations to work.
-
-5. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-6. Build for production:
-   ```bash
-   npm run build
-   ```
-
-## Technologies Used
-
-- React 19
-- TypeScript
-- Vite
-- Google Gemini AI
-- Supabase
-- Express.js
-- Google APIs
-- iconv-lite (for Vietnamese filename encoding support)
-
-## Project Structure
-
-- `/components` - React components
-- `/hooks` - Custom React hooks
-- `/services` - API and service integrations
-- `App.tsx` - Main application component
-- `types.ts` - TypeScript type definitions
-- `constants.tsx` - Application constants
-
-## Development
-
-The project uses Vite as the build tool and development server. Key scripts:
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-
-## License
-
-[Add your license information here]
-VITE_GEMINI_API_KEY=AIzaSyDCOeSEj5h7f32Ln4OUSwke5Z0Pcw4N61M
+## Giấy phép
+[Thêm thông tin giấy phép của bạn ở đây]

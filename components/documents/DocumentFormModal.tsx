@@ -126,6 +126,7 @@ export const DocumentFormModal: React.FC<DocumentFormModalProps> = ({ isOpen, on
           size_bytes: driveFile.sizeBytes || 0,
           google_drive_webview_link: driveFile.webViewLink,
           google_drive_download_link: driveFile.downloadLink,
+          file_url: driveFile.downloadLink,
         };
         const savedAttachment = await documentApi.addFileAttachment(newAttachmentData);
         setCurrentAttachments(prev => [...prev, savedAttachment as FileAttachment]);
@@ -196,6 +197,7 @@ export const DocumentFormModal: React.FC<DocumentFormModalProps> = ({ isOpen, on
                         size_bytes: driveFile.sizeBytes || 0,
                         google_drive_webview_link: driveFile.webViewLink,
                         google_drive_download_link: driveFile.downloadLink,
+                        file_url: driveFile.downloadLink,
                     };
                     await documentApi.addFileAttachment(newAttachmentData); 
                 }

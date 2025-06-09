@@ -147,11 +147,28 @@ export const documentApi = {
   },
 
   delete: async (id: UUID): Promise<boolean> => {
-    // First delete related document_relations
+    // 1. Lấy danh sách file_attachments của document
+    const { data: attachments } = await supabase
+      .from('file_attachments')
+      .select('google_drive_file_id')
+      .eq('document_id', id);
+
+    // 2. Xóa file trên Google Drive
+    if (attachments && attachments.length > 0) {
+      for (const att of attachments) {
+        if (att.google_drive_file_id) {
+          await fetch('http://localhost:3001/delete-drive-file', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fileId: att.google_drive_file_id })
+          });
+        }
+      }
+    }
+
+    // 3. Xóa các bản ghi liên quan trong database như hiện tại
     await supabase.from('document_relations').delete().or(`source_document_id.eq.${id},related_document_id.eq.${id}`);
-    // Then delete related file_attachments
     await supabase.from('file_attachments').delete().eq('document_id', id);
-    // Finally delete the document
     const { error } = await supabase.from('documents').delete().eq('id', id);
     if (error) throw error;
     return true;
@@ -507,6 +524,26 @@ export const tourismDocumentApi = {
   },
 
   delete: async (id: UUID): Promise<boolean> => {
+    // 1. Lấy danh sách file_attachments của tourism document
+    const { data: attachments } = await supabase
+      .from('tourism_document_file_attachments')
+      .select('google_drive_file_id')
+      .eq('tourism_document_id', id);
+
+    // 2. Xóa file trên Google Drive
+    if (attachments && attachments.length > 0) {
+      for (const att of attachments) {
+        if (att.google_drive_file_id) {
+          await fetch('http://localhost:3001/delete-drive-file', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fileId: att.google_drive_file_id })
+          });
+        }
+      }
+    }
+
+    // 3. Xóa các bản ghi liên quan trong database như hiện tại
     await supabase.from('tourism_document_file_attachments').delete().eq('tourism_document_id', id);
     const { error } = await supabase.from('tourism_documents').delete().eq('id', id);
     if (error) throw error;

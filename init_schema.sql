@@ -28,61 +28,75 @@ DROP TYPE IF EXISTS public.tourism_sector CASCADE;
 DROP TYPE IF EXISTS public.tourism_document_relation_type CASCADE;
 
 -- TẠO LẠI ENUM
-CREATE TYPE public.document_status AS ENUM ('Moi', 'DangXuLy', 'ChoPhanHoi', 'DaHoanThanh', 'LuuTru', 'Huy');
+CREATE TYPE public.document_status AS ENUM ('Mới', 'Đang xử lý', 'Chờ phản hồi', 'Đã hoàn thành', 'Lưu trữ', 'Hủy');
 CREATE TYPE public.document_type AS ENUM (
-  'CongVanDen', 'CongVanDi', 'KeHoach', 'BaoCao', 'ToTrinh', 'BienBan',
-  'HopDong', 'TaiLieuThamKhao', 'QuyetDinhPheDuyet', 'CongVanChiDao',
-  'ThuyetMinhDuAnDeAn', 'HoSoDiTich', 'QuyHoachPhatTrien',
-  'DeAnDuLich', 'BaoCaoKhaoSat', 'TaiLieuNghienCuu',
-  'HoSoDuAnQuyHoachKeHoach', 'BienBanKiemKeDiTich',
-  'BaoCaoGiamSatHoatDongDuLich', 'Khac'
+  'Công văn đến',
+  'Công văn đi',
+  'Kế hoạch',
+  'Báo cáo',
+  'Tờ trình',
+  'Biên bản',
+  'Hợp đồng',
+  'Tài liệu tham khảo',
+  'Quyết định Phê duyệt',
+  'Công văn Chỉ đạo',
+  'Thuyết minh Dự án/Đề án',
+  'Hồ sơ di tích',
+  'Quy hoạch phát triển',
+  'Đề án du lịch',
+  'Báo cáo khảo sát',
+  'Tài liệu nghiên cứu',
+  'Hồ sơ Dự án Quy hoạch/Kế hoạch',
+  'Biên bản Kiểm kê Di tích',
+  'Báo cáo Giám sát Hoạt động Du lịch',
+  'Khác'
 );
-CREATE TYPE public.priority AS ENUM ('Cao', 'TrungBinh', 'Thap');
-CREATE TYPE public.task_priority AS ENUM ('KhanCap', 'Cao', 'TrungBinh', 'Thap');
-CREATE TYPE public.task_status AS ENUM ('MoiTao', 'DangThucHien', 'TamDung', 'HoanThanh', 'HuyBo');
+CREATE TYPE public.priority AS ENUM ('Cao', 'Trung bình', 'Thấp');
+CREATE TYPE public.task_priority AS ENUM ('Khẩn cấp', 'Cao', 'Trung bình', 'Thấp');
+CREATE TYPE public.task_status AS ENUM ('Mới tạo', 'Đang thực hiện', 'Tạm dừng', 'Hoàn thành', 'Hủy bỏ');
 CREATE TYPE public.task_category AS ENUM (
-  'SoanThao', 'TrinhKy', 'TheoDoi', 'ThamMuu', 'PhoiHop', 'BaoCaoCV',
-  'LuuTruCV', 'QuanLyDiTichChung', 'KiemKeDiTich', 'TuBoTonTaoDiTich',
-  'GiamSatHoatDongDuLich', 'PhatTrienDuLich', 'TiepThiQuangBa',
-  'HoTroKhachDuLich', 'NghienCuuKhoaHoc', 'XayDungSanPhamDuLich',
-  'ThamGiaDuAnQuyHoachKeHoach', 'Khac'
+  'Soạn thảo', 'Trình ký', 'Theo dõi', 'Tham mưu', 'Phối hợp', 'Báo cáo CV',
+  'Lưu trữ CV', 'Quản lý di tích chung', 'Kiểm kê di tích', 'Tu bổ tôn tạo di tích',
+  'Giám sát hoạt động du lịch', 'Phát triển du lịch', 'Tiếp thị quảng bá',
+  'Hỗ trợ khách du lịch', 'Nghiên cứu khoa học', 'Xây dựng sản phẩm du lịch',
+  'Tham gia dự án quy hoạch/kế hoạch', 'Khác'
 );
 CREATE TYPE public.event_type AS ENUM (
-  'HoiNghi', 'HoiThao', 'TrienLam', 'ChuongTrinhXucTien', 'LeKyNiem',
-  'LeHoiTruyenThong', 'SuKienVanHoaNgheThuat', 'HoiChoXucTienDuLich',
-  'ChuongTrinhQuangBaDiSan', 'HoatDongTheThaoLeoNui',
-  'HoiThaoKhoaHoc', 'ChuongTrinhKhaoSatThucDia', 'ToaDamGiaoLuu', 'Khac'
+  'Hội nghị', 'Hội thảo', 'Triển lãm', 'Chương trình xúc tiến', 'Lễ kỷ niệm',
+  'Lễ hội truyền thống', 'Sự kiện văn hóa nghệ thuật', 'Hội chợ xúc tiến du lịch',
+  'Chương trình quảng bá di sản', 'Hoạt động thể thao leo núi',
+  'Hội thảo khoa học', 'Chương trình khảo sát thực địa', 'Tọa đàm giao lưu', 'Khác'
 );
 CREATE TYPE public.event_status AS ENUM (
-  'DaLenKeHoach', 'DangChuanBi', 'DangDienRa', 'HoanThanh', 'HuyBo'
+  'Đã lên kế hoạch', 'Đang chuẩn bị', 'Đang diễn ra', 'Hoàn thành', 'Hủy bỏ'
 );
 CREATE TYPE public.relic_type AS ENUM (
-  'KienTrucNgheThuat', 'LichSu', 'KhaoCo', 'DanhLamThangCanh', 'LuuNiemSuKien', 'Khac'
+  'Kiến trúc nghệ thuật', 'Lịch sử', 'Khảo cổ', 'Danh lam thắng cảnh', 'Lưu niệm sự kiện', 'Khác'
 );
 CREATE TYPE public.relic_recognition_level AS ENUM (
-  'QuocGiaDacBiet', 'QuocGia', 'CapTinh', 'ChuaXepHang', 'DeXuatXepHang'
+  'Quốc gia đặc biệt', 'Quốc gia', 'Cấp tỉnh', 'Chưa xếp hạng', 'Đề xuất xếp hạng'
 );
 CREATE TYPE public.relic_tourism_exploitation_status AS ENUM (
-  'DangKhaiThacTot', 'KhaiThacHieuQuaThap', 'HanCheKhaiThac',
-  'NgungKhaiThac', 'TiemNangChuaKhaiThac', 'DangNghienCuuXayDungSP'
+  'Đang khai thác tốt', 'Khai thác hiệu quả thấp', 'Hạn chế khai thác',
+  'Ngừng khai thác', 'Tiềm năng chưa khai thác', 'Đang nghiên cứu xây dựng sản phẩm'
 );
 CREATE TYPE public.conservation_status AS ENUM (
-  'Tot', 'CanTuBo', 'DangTuBo', 'XuongCapNghiemTrong',
-  'MoiPhatHienKhaoSat', 'Khac'
+  'Tốt', 'Cần tu bổ', 'Đang tu bổ', 'Xuống cấp nghiêm trọng',
+  'Mới phát hiện khảo sát', 'Khác'
 );
 CREATE TYPE public.tourism_document_category AS ENUM (
-  'ThongTu', 'QuyetDinh', 'NghiDinh', 'Luat', 'CongVanHuongDan',
-  'ChiThi', 'KeHoachNganh', 'BaoCaoNganh',
-  'TaiLieuHoiThaoTapHuanNganh', 'Khac'
+  'Thông tư', 'Quyết định', 'Nghị định', 'Luật', 'Công văn hướng dẫn',
+  'Chỉ thị', 'Kế hoạch ngành', 'Báo cáo ngành',
+  'Tài liệu hội thảo/tập huấn ngành', 'Khác'
 );
 CREATE TYPE public.tourism_sector AS ENUM (
-  'LuHanh', 'LuuTru', 'XucTienQuangBa', 'VanChuyenDuLich',
-  'KhuDiemDuLich', 'HuongDanVien', 'AnToanDuLich',
-  'DaoTaoNhanLucDuLich', 'ChinhSachPhatTrienDuLich',
-  'NghienCuuDuLich', 'LinhVucKhac'
+  'Lữ hành', 'Lưu trú', 'Xúc tiến quảng bá', 'Vận chuyển du lịch',
+  'Khu/điểm du lịch', 'Hướng dẫn viên', 'An toàn du lịch',
+  'Đào tạo nhân lực du lịch', 'Chính sách phát triển du lịch',
+  'Nghiên cứu du lịch', 'Lĩnh vực khác'
 );
 CREATE TYPE public.tourism_document_relation_type AS ENUM (
-  'LienQuanDen', 'ThayThe', 'BoSung', 'SuaDoi', 'HuyBo', 'Khac'
+  'Liên quan đến', 'Thay thế', 'Bổ sung', 'Sửa đổi', 'Hủy bỏ', 'Khác'
 );
 
 -- USERS
@@ -104,9 +118,14 @@ CREATE TABLE public.documents (
   status public.document_status,
   priority public.priority,
   due_date date,
+  issued_date date,
+  received_date date,
+  issuing_organization text,
+  recipient_organization text,
   summary text,
   tags text[],
-  user_id uuid not null references public.users(id) on delete cascade,
+  user_id uuid,
+  handler_user_id uuid,
   created_at timestamp with time zone default timezone('utc'::text, now()),
   updated_at timestamp with time zone default timezone('utc'::text, now())
 );
@@ -117,8 +136,14 @@ CREATE TABLE public.file_attachments (
   document_id uuid not null references public.documents(id) on delete cascade,
   file_name text not null,
   file_url text not null,
+  google_drive_file_id text,
+  google_drive_download_link text,
+  google_drive_webview_link text,
+  mime_type text,
+  size_bytes bigint,
+  version integer default 1,
   uploaded_at timestamp with time zone default timezone('utc'::text, now()),
-  user_id uuid not null references public.users(id) on delete cascade
+  user_id uuid
 );
 
 -- DOCUMENT RELATIONS
@@ -128,7 +153,7 @@ CREATE TABLE public.document_relations (
   related_document_id uuid not null references public.documents(id) on delete cascade,
   relation_type text,
   description text,
-  user_id uuid not null references public.users(id) on delete cascade,
+  user_id uuid,
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
 
@@ -143,7 +168,7 @@ CREATE TABLE public.events (
   location text,
   organizer text,
   description text,
-  user_id uuid not null references public.users(id) on delete cascade,
+  user_id uuid,
   created_at timestamp with time zone default timezone('utc'::text, now()),
   updated_at timestamp with time zone default timezone('utc'::text, now())
 );
@@ -159,7 +184,7 @@ CREATE TABLE public.tasks (
   task_category public.task_category,
   related_document_id uuid references public.documents(id) on delete set null,
   related_event_id uuid references public.events(id) on delete set null,
-  user_id uuid not null references public.users(id) on delete cascade,
+  user_id uuid,
   created_at timestamp with time zone default timezone('utc'::text, now()),
   updated_at timestamp with time zone default timezone('utc'::text, now())
 );
@@ -174,7 +199,7 @@ CREATE TABLE public.relics (
   conservation_status public.conservation_status,
   location_description text,
   short_description text,
-  user_id uuid not null references public.users(id) on delete cascade,
+  user_id uuid,
   created_at timestamp with time zone default timezone('utc'::text, now()),
   updated_at timestamp with time zone default timezone('utc'::text, now())
 );
@@ -194,7 +219,7 @@ CREATE TABLE public.tourism_documents (
   summary text,
   applicable_entities text,
   tags text[],
-  user_id uuid not null references public.users(id) on delete cascade,
+  user_id uuid,
   created_at timestamp with time zone default timezone('utc'::text, now()),
   updated_at timestamp with time zone default timezone('utc'::text, now())
 );
@@ -211,7 +236,7 @@ CREATE TABLE public.tourism_document_file_attachments (
   google_drive_download_link text,
   version integer default 1,
   uploaded_at timestamp with time zone default timezone('utc'::text, now()),
-  user_id uuid not null references public.users(id) on delete cascade
+  user_id uuid
 );
 
 -- TOURISM DOCUMENT RELATIONS
@@ -221,7 +246,7 @@ CREATE TABLE public.tourism_document_relations (
   related_document_id uuid not null references public.tourism_documents(id) on delete cascade,
   relation_type public.tourism_document_relation_type not null,
   description text,
-  user_id uuid not null references public.users(id) on delete cascade,
+  user_id uuid,
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
 

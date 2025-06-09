@@ -22,8 +22,17 @@ export default defineConfig(({ mode }) => {
         transformMixedEsModules: true,
       },
       rollupOptions: {
-        external: ['fs', 'path', 'os', 'events', 'child_process'],
+        external: ['fs', 'path', 'os', 'events', 'child_process', 'net', 'tls', 'http', 'https', 'zlib', 'http2', 'querystring', 'vm'],
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'ui-vendor': ['antd', '@ant-design/icons', '@heroicons/react'],
+            'pdf-vendor': ['pdf-parse', 'pdf-lib', 'pdf-poppler'],
+            'google-vendor': ['@google/genai', 'googleapis'],
+          },
+        },
       },
+      chunkSizeWarningLimit: 1000,
     },
     resolve: {
       alias: {
@@ -32,6 +41,7 @@ export default defineConfig(({ mode }) => {
     },
     optimizeDeps: {
       exclude: ['pdf-parse', 'mammoth', 'tesseract.js', 'sharp', 'googleapis'],
+      include: ['react', 'react-dom', 'react-router-dom', 'antd', '@ant-design/icons'],
     },
     define: {
       'process.env': env

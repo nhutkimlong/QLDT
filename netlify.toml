@@ -8,6 +8,8 @@
   GOOGLE_DRIVE_FOLDER_ID = "1WMmPS_dcfLO1us_jWywB1dg2oPsuZoUJ"
   VITE_API_URL = "/.netlify/functions/api"
   VITE_GEMINI_API_KEY = "AIzaSyBBtMxTvRbilQfyx2qLRdW4knsiJswIVhk"
+  NODE_OPTIONS = "--max-old-space-size=4096"
+  NODE_VERSION = "18.17.0"
 
 [[redirects]]
   from = "/api/*"

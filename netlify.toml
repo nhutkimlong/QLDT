@@ -3,6 +3,12 @@
   publish = "dist"
   functions = "netlify/functions"
 
+[build.environment]
+  GOOGLE_APPLICATION_CREDENTIALS = "service-account-key.json"
+  GOOGLE_DRIVE_FOLDER_ID = "1WMmPS_dcfLO1us_jWywB1dg2oPsuZoUJ"
+  VITE_API_URL = "/.netlify/functions/api"
+  VITE_GEMINI_API_KEY = "AIzaSyBBtMxTvRbilQfyx2qLRdW4knsiJswIVhk"
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"

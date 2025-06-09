@@ -2,14 +2,6 @@
   command = "npm run build"
   publish = "dist"
   functions = "netlify/functions"
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ./tessdata/"
-
-[dev]
-  command = "npm run dev"
-  port = 8888
-  targetPort = 5173
-  publish = "dist"
-  autoLaunch = true
 
 [[redirects]]
   from = "/api/*"
@@ -19,4 +11,8 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["pdf-parse", "mammoth", "tesseract.js", "sharp"] 
